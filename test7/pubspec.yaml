@@ -36,9 +36,15 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_mapbox_navigation:
-    path: /Users/alessandroramello/Desktop/gitRepo/flutter_mapbox_navigation
+    path: D:\repo\libraryMapboxToUpdate\flutter_mapbox_navigation-master
+
   latlong2: ^0.9.0
   geolocator: ^10.1.0
+  intl: ^0.17.0
+  camera: ^0.10.5+9
+  path_provider: ^2.1.2
+  path: ^1.9.0
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -63,8 +69,14 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+     - assets/close.png
+     - assets/button.png
+     - assets/yoshi.png
+     - assets/point.png
+     - assets/account.png
+     - assets/package.png
+     - assets/furgoncino.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:test7/point.dart';
 
 class TestNavigation extends StatefulWidget {
   const TestNavigation({super.key});
-
   @override
   State<TestNavigation> createState() => _TestNavigationState();
 }
@@ -16,11 +15,11 @@ class _TestNavigationState extends State<TestNavigation> {
   final bool _isMultipleStop = true;
   MapBoxNavigationViewController? _controller;
 
-  late Position? currentPosition;
-
   double? _distanceRemaining, _durationRemaining;
   bool _routeBuilt = false;
   bool _isNavigating = false;
+
+  String currentTime = '';
 
   MapBoxOptions opt = MapBoxOptions(
     language: "en",
@@ -39,25 +38,19 @@ class _TestNavigationState extends State<TestNavigation> {
     longPressDestinationEnabled: false,
   );
 
-  int _selectedIndex = 0;
+  final int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    initialize();
     points.fillList();
+    updateClock();
   }
 
   @override
   void dispose() {
     _controller?.dispose();
     super.dispose();
-  }
-
-  Future<void> initialize() async {
-    if (!mounted) return;
-    MapBoxNavigation.instance.registerRouteEventListener(_onEmbeddedRouteEvent);
-    setState(() {});
   }
 
   @override
@@ -102,8 +95,12 @@ class _TestNavigationState extends State<TestNavigation> {
               ListTile(
                 title: const Text('School'),
                 selected: _selectedIndex == 2,
-                onTap: () {
-                  Navigator.pop(context);
+                onTap: () async {
+                  //Navigator.pop(context);
+                  setState(() async {
+                    _distanceRemaining =
+                        await MapBoxNavigation.instance.getDistanceRemaining();
+                  });
                 },
               ),
             ],
@@ -118,24 +115,64 @@ class _TestNavigationState extends State<TestNavigation> {
                 _controller = controller;
               },
             ),
-            /*Visibility(
+            Visibility(
               visible: _isNavigating,
               child: Align(
-                alignment: Alignment.bottomRight,
-                child: SizedBox(
-                  width: 100,
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: double.maxFinite,
                   height: 100,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Image(
-                      image: AssetImage("assets/not_done.png"),
-                    ),
+                  color: Colors.white,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: InkWell(
+                          onTap: () {},
+                          child: const Image(
+                            image: AssetImage("assets/button.png"),
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            setDistance(_distanceRemaining),
+                            style: const TextStyle(
+                              fontSize: 30,
+                            ),
+                          ),
+                          Text(
+                            "${setDuration(_durationRemaining)}  $currentTime",
+                            style: const TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                            _controller?.finishNavigation();
+                          },
+                          child: const Image(
+                            image: AssetImage("assets/close.png"),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),*/
+            ),
           ],
         ),
       ),
@@ -143,38 +180,34 @@ class _TestNavigationState extends State<TestNavigation> {
   }
 
   Future<void> _onEmbeddedRouteEvent(e) async {
-    _distanceRemaining = await MapBoxNavigation.instance.getDistanceRemaining();
-    _durationRemaining = await MapBoxNavigation.instance.getDurationRemaining();
+    _distanceRemaining = await _controller?.distanceRemaining;
+    _durationRemaining = await _controller?.durationRemaining;
 
     switch (e.eventType) {
       case MapBoxEvent.values:
         setState(() {
-          debugPrint(
-              "values-------------------------------------------------------------------------------------------------------");
+          debugPrint("values");
         });
       case MapBoxEvent.map_ready:
-        debugPrint(
-            "map_ready---------------------------------------------------------------------------------------------------------------");
+        debugPrint("map_ready");
       case MapBoxEvent.progress_change:
         setState(() {
           _isNavigating = true;
-          debugPrint(
-              "progress_change-------------------------------------------------------------------------------------------------------");
+          debugPrint("progress_change");
         });
         var progressEvent = e.data as RouteProgressEvent;
         if (progressEvent.currentStepInstruction != null) {
-          debugPrint("-------------------leg-------${progressEvent.legIndex}----------------------");
+          debugPrint("leg-------${progressEvent.legIndex}-");
         }
         break;
       case MapBoxEvent.route_building:
+        _routeBuilt = true;
         setState(() {
-          debugPrint(
-              "route_building-------------------------------------------------------------------------------------------------------");
+          debugPrint("route_building");
         });
       case MapBoxEvent.route_built:
         setState(() {
-          debugPrint(
-              "route_built-------------------------------------------------------------------------------------------------------");
+          debugPrint("route_built");
         });
         break;
       case MapBoxEvent.route_build_failed:
@@ -183,13 +216,11 @@ class _TestNavigationState extends State<TestNavigation> {
       case MapBoxEvent.navigation_running:
         setState(() {
           _isNavigating = true;
-          debugPrint(
-              "navigation_running-------------------------------------------------------------------------------------------------------");
+          debugPrint("navigation_running");
         });
         break;
       case MapBoxEvent.on_arrival:
-        debugPrint(
-            "on_arrival-------------------------------------------------------------------------------------------------------");
+        debugPrint("on_arrival");
         debugPrint("case3-");
         if (!_isMultipleStop) {
           debugPrint("case4");
@@ -197,25 +228,60 @@ class _TestNavigationState extends State<TestNavigation> {
           await _controller?.finishNavigation();
         } else {
           debugPrint("case1");
-          setState(() {
-          });
+          setState(() {});
         }
         break;
       case MapBoxEvent.navigation_finished:
         setState(() {
-          debugPrint(
-              "navigation_finished-------------------------------------------------------------------------------------------------------");
+          debugPrint("navigation_finished");
         });
         debugPrint("case2");
       case MapBoxEvent.navigation_cancelled:
         setState(() {
-          debugPrint(
-              "navigation_cancelled-------------------------------------------------------------------------------------------------------");
+          debugPrint("navigation_cancelled");
         });
         break;
       default:
         break;
     }
     setState(() {});
+  }
+
+  String setDistance(double? distance) {
+    var res = "";
+    if (distance != null) {
+      if (distance > 1000) {
+        res = "${(distance / 100).round() / 10} km";
+      }
+      if (distance < 1000) {
+        res = "${(distance / 100).round() * 100} m";
+      }
+    }
+    return res;
+  }
+
+  String setDuration(double? duration) {
+    var res = "";
+    if (duration != null) {
+      if (duration > 60) {
+        res = "${(duration / 60).round()} min";
+      } else {
+        res = " < 1 min";
+      }
+      if (duration == 0) {
+        res = "0 min";
+      }
+    }
+    return res;
+  }
+
+  void updateClock() {
+    setState(() {
+      if (_durationRemaining != null) {
+        currentTime = DateFormat.Hm().format(
+            DateTime.now().add(Duration(seconds: _durationRemaining!.round())));
+      }
+    });
+    Future.delayed(const Duration(seconds: 1), updateClock);
   }
 }

@@ -15,4 +15,19 @@
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+
+    <style name="MapboxCustomManeuverStyle" parent="MapboxStyleManeuverView">
+        <item name="maneuverViewBackgroundColor">#eb0ff2</item>
+        <item name="subManeuverViewBackgroundColor">#eb0ff2</item>
+        <item name="upcomingManeuverViewBackgroundColor">#eb0ff2</item>
+    </style>
+
+    <style name="ManeuverTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">#FFC107</item>
+        // Add other text view properties here
+    </style>
+    <style name="MapboxCustomManeuverTurnIconStyle" parent="MapboxStyleTurnIconManeuver">
+        <item name="maneuverTurnIconColor">#FFEB3B</item>
+        <item name="maneuverTurnIconShadowColor">#7A6E03</item>
+    </style>
 </resources>

@@ -4,7 +4,6 @@ import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:test7/point.dart';
 
-
 class Test2 extends StatefulWidget {
   const Test2({super.key});
 
@@ -409,6 +408,8 @@ class _Test2State extends State<Test2> {
   Future<void> _onEmbeddedRouteEvent(e) async {
     _distanceRemaining = await MapBoxNavigation.instance.getDistanceRemaining();
     _durationRemaining = await MapBoxNavigation.instance.getDurationRemaining();
+    debugPrint(
+        "--------------$_distanceRemaining e $_durationRemaining -------------------");
 
     switch (e.eventType) {
       case MapBoxEvent.values:
@@ -427,13 +428,17 @@ class _Test2State extends State<Test2> {
         });
         var progressEvent = e.data as RouteProgressEvent;
         if (progressEvent.currentStepInstruction != null) {
-          debugPrint("-------------------currentLeg-------${progressEvent.currentLeg}------------------------------------------------------");
-          debugPrint("-------------------legIndex-------${progressEvent.legIndex}----------------------------------------------------------");
-          debugPrint("-------------------stepIndex-------${progressEvent.stepIndex}--------------------------------------------------------");
-          debugPrint("-------------------priorLeg-------${progressEvent.priorLeg}----------------------------------------------------------");
-          debugPrint("-------------------currentLegDistanceRemaining----${progressEvent.currentLegDistanceRemaining}-----------------------");
+          debugPrint(
+              "-------------------currentLeg-------${progressEvent.currentLeg}------------------------------------------------------");
+          debugPrint(
+              "-------------------legIndex-------${progressEvent.legIndex}----------------------------------------------------------");
+          debugPrint(
+              "-------------------stepIndex-------${progressEvent.stepIndex}--------------------------------------------------------");
+          debugPrint(
+              "-------------------priorLeg-------${progressEvent.priorLeg}----------------------------------------------------------");
+          debugPrint(
+              "-------------------currentLegDistanceRemaining----${progressEvent.currentLegDistanceRemaining}-----------------------");
           //MapBoxNavigation.instance.
-
         }
         break;
       case MapBoxEvent.route_building:
