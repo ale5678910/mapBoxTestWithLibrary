@@ -133,17 +133,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  checkLocationService();
-                  if (isLocationServiceEnabled) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OrderListScreen(),
-                      ),
-                    );
-                  } else {
-                    _showMyDialog();
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OrderListScreen(),
+                    ),
+                  );
                 },
                 child: const Text("orderlist"),
               ),

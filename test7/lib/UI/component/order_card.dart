@@ -8,11 +8,17 @@ class OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+      padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(12)),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20,
+              color: Color.fromRGBO(0, 0, 0, 0.11),
+            ),
+          ],
         ),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -22,13 +28,17 @@ class OrderCard extends StatelessWidget {
                 width: 100,
                 height: 100,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFe3e0de),
+                  color: Color(0xFFF2F9F6),
                   borderRadius: BorderRadius.all(Radius.circular(12)),
                 ),
                 child: const Center(
                   child: Text(
                     "11:25",
-                    style: TextStyle(fontSize: 24,color: Colors.green),
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Color(0xFF00A550),
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
@@ -40,7 +50,8 @@ class OrderCard extends StatelessWidget {
                       Container(
                         decoration: const BoxDecoration(
                           border: Border(
-                            bottom: BorderSide(color: Colors.green, width: 1),
+                            bottom:
+                                BorderSide(color: Color(0xFF00A550), width: 1),
                           ),
                         ),
                         child: Padding(
@@ -72,7 +83,7 @@ class OrderCard extends StatelessWidget {
                             const Image(
                               width: 20,
                               height: 20,
-                              color: Colors.green,
+                              color: Color(0xFF00A550),
                               image: AssetImage("assets/account.png"),
                             ),
                             const SizedBox(width: 10),
@@ -87,7 +98,7 @@ class OrderCard extends StatelessWidget {
                             const Image(
                               width: 20,
                               height: 20,
-                              color: Colors.green,
+                              color: Color(0xFF00A550),
                               image: AssetImage("assets/point.png"),
                             ),
                             const SizedBox(width: 10),

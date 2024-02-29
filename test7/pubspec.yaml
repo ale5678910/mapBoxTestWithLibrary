@@ -77,6 +77,14 @@ flutter:
      - assets/account.png
      - assets/package.png
      - assets/furgoncino.png
+     - assets/menu.png
+     - assets/navigation.png
+     - assets/local_shipping.png
+     - assets/acute.png
+     - assets/add_road.png
+     - assets/close_1.png
+     - assets/conversion_path.png
+     - assets/package_2.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
