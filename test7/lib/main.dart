@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:test7/UI/screen/login_screen.dart';
 import 'package:test7/UI/screen/order_list_screen.dart';
 import 'package:test7/camera_test.dart';
 import 'package:test7/point.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00A550)),
         useMaterial3: true,
       ),
       home: MyHomePage(camera: camera),
@@ -141,6 +142,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
                 child: const Text("orderlist"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );
+                },
+                child: const Text("login"),
               ),
             ],
           ),

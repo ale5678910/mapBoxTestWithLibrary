@@ -85,6 +85,8 @@ flutter:
      - assets/close_1.png
      - assets/conversion_path.png
      - assets/package_2.png
+     - assets/login_background.png
+     - assets/lmm_logo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -11,8 +9,7 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-
-  List<bool> test = [true,false,false,false,false];
+  List<bool> test = [true, false, false, false, false];
   var count = 0;
 
   Timer? _timer;
@@ -20,10 +17,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-
-    // Esegui la funzione ogni 5 secondi
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      // Chiamata alla tua funzione
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       animation();
     });
   }
@@ -50,13 +44,14 @@ class _LoadingScreenState extends State<LoadingScreen> {
       ),
     );
   }
-  void animation(){
+
+  void animation() {
     setState(() {
       test[count] = !test[count];
-      if(count != 4){
-        test[count + 1] = !test[count +1];
+      if (count != 4) {
+        test[count + 1] = !test[count + 1];
         count = count + 1;
-      }else{
+      } else {
         test[0] = !test[0];
         count = 0;
       }
