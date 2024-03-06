@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../component/standard_button.dart';
+import 'geolocation_aut_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -52,8 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 style: TextStyle(
                                   fontSize: 25,
                                   fontFamily: "Kulim Park",
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
+                                  color: Color(0XFF1E1E1E),
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                               TextSpan(
@@ -62,17 +65,36 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontSize: 25,
                                   fontFamily: "Kulim Park",
                                   color: Color(0xFF00A550),
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ],
+                          ),
+                        ),
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Text(
+                              'Username',
+                              style: TextStyle(
+                                color: Color(0xFF1E1E1E),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Kulim Park',
+                              ),
+                            ),
                           ),
                         ),
                         TextField(
                           onChanged: (value) {
                             debugPrint(value.toString());
                           },
-                          style: const TextStyle(color: Color(0xFFD9D9D9)),
+                          style: const TextStyle(
+                            color: Color(0xFFD9D9D9),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w300,
+                          ),
                           decoration: const InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
@@ -82,6 +104,21 @@ class _LoginScreenState extends State<LoginScreen> {
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color(0xFFD9D9D9),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Text(
+                              'Password',
+                              style: TextStyle(
+                                color: Color(0xFF1E1E1E),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'Kulim Park',
                               ),
                             ),
                           ),
@@ -108,31 +145,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(height: 80),
                         InkWell(
                           onTap: () {
-                            debugPrint("dsdsd");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const GeolocationAut(),
+                              ),
+                            );
                           },
-                          child: Container(
-                            width: double.infinity,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF00A550),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(12),
-                              ),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(14.0),
-                              child: Center(
-                                child: Text(
-                                  "Login",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: "Kulim Park",
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          child: const StandardButton(nameButton: 'Login')
                         ),
                         const SizedBox(height: 40),
                       ],

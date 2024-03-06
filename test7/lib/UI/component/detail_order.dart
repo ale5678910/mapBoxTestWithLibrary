@@ -244,6 +244,7 @@ class OrderDetail extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 40),
         ],
       ),
     );

@@ -1,5 +1,5 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -9,81 +9,27 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  List<bool> test = [true, false, false, false, false];
-  var count = 0;
-
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      animation();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFBFBFB),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            test[0] ? RotatePackage() : NormalPackage(),
-            SizedBox(width: 24),
-            test[1] ? RotatePackage() : NormalPackage(),
-            SizedBox(width: 24),
-            test[2] ? RotatePackage() : NormalPackage(),
-            SizedBox(width: 24),
-            test[3] ? RotatePackage() : NormalPackage(),
-            SizedBox(width: 24),
-            test[4] ? RotatePackage() : NormalPackage(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void animation() {
-    setState(() {
-      test[count] = !test[count];
-      if (count != 4) {
-        test[count + 1] = !test[count + 1];
-        count = count + 1;
-      } else {
-        test[0] = !test[0];
-        count = 0;
-      }
-    });
-  }
-}
-
-class NormalPackage extends StatelessWidget {
-  const NormalPackage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return const Image(
-      width: 38,
-      height: 38,
-      color: Color(0xFF00A550),
-      image: AssetImage("assets/package_2.png"),
-    );
-  }
-}
-
-class RotatePackage extends StatelessWidget {
-  const RotatePackage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 40),
-      child: Transform.rotate(
-        angle: 45 * (3.141592653589793 / 180),
-        child: const Image(
-          color: Color(0xFF00A550),
-          image: AssetImage("assets/package_2.png"),
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset('assets/animation_loading_2.json'),
+          const SizedBox(
+            height: 20,
+          ),
+          Lottie.asset(
+            'assets/loader_bar.json',
+            width: 200,
+            height: 20,
+            fit: BoxFit.fill,
+          ),
+          const Text(
+            "Caricamento percorso",
+          ),
+        ],
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
-import 'package:intl/intl.dart';
-import 'package:test7/delivery_screen.dart';
+import 'UI/screen/loading_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen(this.waypoint, {super.key});
@@ -15,15 +14,16 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   final bool _isMultipleStop = true;
   MapBoxNavigationViewController? _controller;
+  bool cont = true;
+
   double? _distanceRemaining, _durationRemaining;
+  bool _routeBuilt = false;
   bool _isNavigating = false;
-  String currentTime = '';
+
+  String? _instruction;
 
   MapBoxOptions opt = MapBoxOptions(
     language: "en",
-    zoom: 13.0,
-    tilt: 0.0,
-    bearing: 0.0,
     simulateRoute: true,
     animateBuildRoute: true,
     voiceInstructionsEnabled: true,
@@ -35,17 +35,25 @@ class _NavigationScreenState extends State<NavigationScreen> {
     enableRefresh: true,
     longPressDestinationEnabled: false,
   );
-
   @override
   void initState() {
+    //initialize();
     super.initState();
-    updateClock();
   }
 
   @override
   void dispose() {
     _controller?.dispose();
     super.dispose();
+  }
+
+  Future<void> initialize() async {
+    if (!mounted) return;
+    MapBoxNavigation.instance.registerRouteEventListener(_onEmbeddedRouteEvent);
+    //await MapBoxNavigation.instance.startNavigation(wayPoints: widget.waypoint, options: opt);
+    await _controller?.buildRoute(wayPoints: widget.waypoint);
+    //await _controller?.startNavigation(options: opt);
+    setState(() {});
   }
 
   @override
@@ -59,73 +67,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
             onCreated: (MapBoxNavigationViewController controller) async {
               _controller = controller;
               _controller?.buildRoute(wayPoints: widget.waypoint);
-              _controller?.startNavigation(options: opt);
+              //await _controller?.startNavigation(options: opt);
+              //await MapBoxNavigation.instance.startNavigation(wayPoints: widget.waypoint, options: opt);
             },
           ),
           Visibility(
-            visible: _isNavigating,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: double.maxFinite,
-                height: 100,
-                color: Colors.white,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const DeliveryScreen(),
-                            ),
-                          );
-                        },
-                        child: const Image(
-                          image: AssetImage("assets/button.png"),
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          setDistance(_distanceRemaining),
-                          style: const TextStyle(
-                            fontSize: 30,
-                          ),
-                        ),
-                        Text(
-                          "${setDuration(_durationRemaining)}  $currentTime",
-                          style: const TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: InkWell(
-                        onTap: () {
-                          _controller?.finishNavigation();
-                          Navigator.pop(context);
-                        },
-                        child: const Image(
-                          image: AssetImage("assets/close.png"),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            visible: !_routeBuilt,
+            child: const LoadingScreen(),
           ),
         ],
       ),
@@ -133,23 +81,27 @@ class _NavigationScreenState extends State<NavigationScreen> {
   }
 
   Future<void> _onEmbeddedRouteEvent(e) async {
-    _distanceRemaining = await _controller?.distanceRemaining;
-    _durationRemaining = await _controller?.durationRemaining;
+    _distanceRemaining = await MapBoxNavigation.instance.getDistanceRemaining();
+    _durationRemaining = await MapBoxNavigation.instance.getDurationRemaining();
 
     switch (e.eventType) {
-      case MapBoxEvent.values:
-      case MapBoxEvent.map_ready:
       case MapBoxEvent.progress_change:
-        setState(() {
-          _isNavigating = true;
-        });
         var progressEvent = e.data as RouteProgressEvent;
-        if (progressEvent.currentStepInstruction != null) {}
+        if (progressEvent.currentStepInstruction != null) {
+          _instruction = progressEvent.currentStepInstruction;
+        }
         break;
       case MapBoxEvent.route_building:
       case MapBoxEvent.route_built:
+        setState(() {
+          _routeBuilt = true;
+          //_controller?.startNavigation(options: opt);
+        });
         break;
       case MapBoxEvent.route_build_failed:
+        setState(() {
+          _routeBuilt = false;
+        });
         break;
       case MapBoxEvent.navigation_running:
         setState(() {
@@ -161,11 +113,22 @@ class _NavigationScreenState extends State<NavigationScreen> {
           await Future.delayed(const Duration(seconds: 3));
           await _controller?.finishNavigation();
         } else {
-          setState(() {});
+          setState(() {
+            _controller?.finishNavigation();
+            Navigator.pop(context);
+          });
         }
         break;
       case MapBoxEvent.navigation_finished:
       case MapBoxEvent.navigation_cancelled:
+        Navigator.pop(context);
+        setState(() {
+          _routeBuilt = false;
+          _isNavigating = false;
+        });
+        break;
+      case MapBoxEvent.deliver_button_tap:
+        showDialg();
         break;
       default:
         break;
@@ -173,41 +136,23 @@ class _NavigationScreenState extends State<NavigationScreen> {
     setState(() {});
   }
 
-  String setDistance(double? distance) {
-    var res = "";
-    if (distance != null) {
-      if (distance > 1000) {
-        res = "${(distance / 100).round() / 10} km";
-      }
-      if (distance < 1000) {
-        res = "${(distance / 100).round() * 100} m";
-      }
-    }
-    return res;
-  }
-
-  String setDuration(double? duration) {
-    var res = "";
-    if (duration != null) {
-      if (duration > 60) {
-        res = "${(duration / 60).round()} min";
-      } else {
-        res = " < 1 min";
-      }
-      if (duration == 0) {
-        res = "0 min";
-      }
-    }
-    return res;
-  }
-
-  void updateClock() {
-    setState(() {
-      if (_durationRemaining != null) {
-        currentTime = DateFormat.Hm().format(
-            DateTime.now().add(Duration(seconds: _durationRemaining!.round())));
-      }
-    });
-    Future.delayed(const Duration(seconds: 1), updateClock);
+  void showDialg() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('AlertDialog Title'),
+        content: const Text('AlertDialog description'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 }

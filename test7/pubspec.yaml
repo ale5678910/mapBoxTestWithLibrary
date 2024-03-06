@@ -45,6 +45,7 @@ dependencies:
   path_provider: ^2.1.2
   path: ^1.9.0
   qr_code_scanner: ^1.0.1
+  lottie: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -72,7 +73,6 @@ flutter:
   assets:
      - assets/close.png
      - assets/button.png
-     - assets/yoshi.png
      - assets/point.png
      - assets/account.png
      - assets/package.png
@@ -87,6 +87,12 @@ flutter:
      - assets/package_2.png
      - assets/login_background.png
      - assets/lmm_logo.png
+     - assets/animation_loading.json
+     - assets/animation_loading_2.json
+     - assets/loader_bar.json
+     - assets/background_localization_aut.png
+     - assets/location_aut.png
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

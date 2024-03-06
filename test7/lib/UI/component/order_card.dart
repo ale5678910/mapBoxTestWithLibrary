@@ -35,7 +35,7 @@ class OrderCard extends StatelessWidget {
                   child: Text(
                     "11:25",
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 26,
                       color: Color(0xFF00A550),
                       fontWeight: FontWeight.w700,
                     ),
@@ -65,12 +65,20 @@ class OrderCard extends StatelessWidget {
                               const SizedBox(width: 10),
                               const Text(
                                 "N. ordine - ",
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'Kulim Park',
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF251F21),
+                                ),
                               ),
                               Text(
                                 order.id.toString(),
                                 style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF251F21),
+                                ),
                               ),
                             ],
                           ),
@@ -87,7 +95,15 @@ class OrderCard extends StatelessWidget {
                               image: AssetImage("assets/account.png"),
                             ),
                             const SizedBox(width: 10),
-                            Text(order.recipient),
+                            Text(
+                              order.recipient,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xFF585858),
+                                fontFamily: 'Kulim Park',
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -102,7 +118,15 @@ class OrderCard extends StatelessWidget {
                               image: AssetImage("assets/point.png"),
                             ),
                             const SizedBox(width: 10),
-                            Text(order.address),
+                            Text(
+                              order.address,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xFF585858),
+                                fontFamily: 'Kulim Park',
+                              ),
+                            ),
                           ],
                         ),
                       ),

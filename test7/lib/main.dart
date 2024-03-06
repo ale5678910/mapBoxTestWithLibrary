@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:test7/UI/screen/login_screen.dart';
 import 'package:test7/UI/screen/order_list_screen.dart';
 import 'package:test7/camera_test.dart';
@@ -43,13 +42,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Points points = Points();
-  bool isLocationServiceEnabled = false;
-
-  @override
-  void initState() {
-    super.initState();
-    checkLocationService();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,50 +77,35 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  checkLocationService();
-                  if (isLocationServiceEnabled) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            NavigationScreen([points.syncroweb, points.gru]),
-                      ),
-                    );
-                  } else {
-                    _showMyDialog();
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          NavigationScreen([points.syncroweb, points.gru]),
+                    ),
+                  );
                 },
                 child: const Text("Mappa3"),
               ),
               ElevatedButton(
                 onPressed: () {
-                  checkLocationService();
-                  if (isLocationServiceEnabled) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CameraTest(camera: widget.camera),
-                      ),
-                    );
-                  } else {
-                    _showMyDialog();
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CameraTest(camera: widget.camera),
+                    ),
+                  );
                 },
                 child: const Text("CameraTest"),
               ),
               ElevatedButton(
                 onPressed: () {
-                  checkLocationService();
-                  if (isLocationServiceEnabled) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const QRScanScreen(),
-                      ),
-                    );
-                  } else {
-                    _showMyDialog();
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QRScanScreen(),
+                    ),
+                  );
                 },
                 child: const Text("qrscan"),
               ),
@@ -158,41 +135,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-    );
-  }
-
-  Future<void> checkLocationService() async {
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    setState(() {
-      isLocationServiceEnabled = serviceEnabled;
-    });
-  }
-
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('AlertDialog Title'),
-          content: const SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Ok'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
