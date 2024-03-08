@@ -1,5 +1,5 @@
+import 'package:custom_mapbox_plugin/flutter_mapbox_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
 import 'package:intl/intl.dart';
 import 'package:test7/point.dart';
 

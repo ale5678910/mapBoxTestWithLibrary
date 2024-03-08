@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../model/order.dart';
 
 class OrderDetail extends StatelessWidget {
@@ -11,6 +12,7 @@ class OrderDetail extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Center(
             child: Padding(
@@ -32,14 +34,21 @@ class OrderDetail extends StatelessWidget {
                 Navigator.pop(context);
               },
               child: Container(
-                width: 30,
-                height: 30,
+                width: 24,
+                height: 24,
                 decoration: const BoxDecoration(
-                    shape: BoxShape.circle, color: Color(0xFFE5E5E5)),
-                child: const Image(
-                  width: 20,
-                  height: 20,
-                  image: AssetImage("assets/close_1.png"),
+                  shape: BoxShape.circle,
+                  color: Color(0xFFE5E5E5),
+                ),
+                child: SvgPicture.asset(
+                  'assets/svg/close_small.svg',
+                  width: 10,
+                  height: 10,
+                  fit: BoxFit.scaleDown,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.black,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),
@@ -49,7 +58,10 @@ class OrderDetail extends StatelessWidget {
             child: Text(
               "Dettagli ordine N. ${order.id}",
               style: const TextStyle(
-                fontSize: 22,
+                fontSize: 26,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Kulim Park',
+                color: Color(0XFF404040),
               ),
             ),
           ),
@@ -60,15 +72,18 @@ class OrderDetail extends StatelessWidget {
                   backgroundColor: const Color(0xFF00A550),
                 ),
                 onPressed: () {},
-                child: const Row(
+                child: Row(
                   children: [
-                    Image(
+                    SvgPicture.asset(
+                      'assets/svg/navigation.svg',
                       width: 20,
                       height: 20,
-                      color: Colors.white,
-                      image: AssetImage("assets/navigation.png"),
+                      colorFilter: const ColorFilter.mode(
+                        Colors.white,
+                        BlendMode.srcIn,
+                      ),
                     ),
-                    Text(
+                    const Text(
                       "  Avvia",
                       style: TextStyle(color: Colors.white),
                     ),
@@ -78,10 +93,12 @@ class OrderDetail extends StatelessWidget {
               const SizedBox(width: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    side: const BorderSide(width: 2, color: Color(0xFF00A550))),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                  side: const BorderSide(
+                    width: 2,
+                    color: Color(0xFF00A550),
+                  ),
+                ),
+                onPressed: () {},
                 child: const Text(
                   "Indicazioni",
                   style: TextStyle(color: Color(0xFF00A550)),
@@ -93,16 +110,24 @@ class OrderDetail extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               border: Border(
-                top: BorderSide(color: Color(0xFF00A550), width: 0.5),
+                top: BorderSide(
+                  color: Color(0xFF00A550),
+                  width: 0.5,
+                ),
               ),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 children: [
-                  const Image(
-                    color: Color(0xFF00A550),
-                    image: AssetImage("assets/account.png"),
+                  SvgPicture.asset(
+                    'assets/svg/account.svg',
+                    width: 22,
+                    height: 22,
+                    colorFilter: const ColorFilter.mode(
+                      Color(0xFF00A550),
+                      BlendMode.srcIn,
+                    ),
                   ),
                   const SizedBox(width: 14),
                   const Text(
@@ -123,16 +148,24 @@ class OrderDetail extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               border: Border(
-                top: BorderSide(color: Color(0xFF00A550), width: 0.5),
+                top: BorderSide(
+                  color: Color(0xFF00A550),
+                  width: 0.5,
+                ),
               ),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 children: [
-                  const Image(
-                    color: Color(0xFF00A550),
-                    image: AssetImage("assets/point.png"),
+                  SvgPicture.asset(
+                    'assets/svg/location.svg',
+                    width: 22,
+                    height: 22,
+                    colorFilter: const ColorFilter.mode(
+                      Color(0xFF00A550),
+                      BlendMode.srcIn,
+                    ),
                   ),
                   const SizedBox(width: 14),
                   const Text(
@@ -156,16 +189,21 @@ class OrderDetail extends StatelessWidget {
                 top: BorderSide(color: Color(0xFF00A550), width: 0.5),
               ),
             ),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 children: [
-                  Image(
-                    color: Color(0xFF00A550),
-                    image: AssetImage("assets/acute.png"),
+                  SvgPicture.asset(
+                    'assets/svg/acute.svg',
+                    width: 22,
+                    height: 22,
+                    colorFilter: const ColorFilter.mode(
+                      Color(0xFF00A550),
+                      BlendMode.srcIn,
+                    ),
                   ),
-                  SizedBox(width: 14),
-                  Column(
+                  const SizedBox(width: 14),
+                  const Column(
                     children: [
                       Row(
                         children: [
@@ -210,20 +248,25 @@ class OrderDetail extends StatelessWidget {
                 bottom: BorderSide(color: Color(0xFF00A550), width: 0.5),
               ),
             ),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 children: [
-                  Image(
-                    color: Color(0xFF00A550),
-                    image: AssetImage("assets/add_road.png"),
+                  SvgPicture.asset(
+                    'assets/svg/add_road.svg',
+                    width: 22,
+                    height: 22,
+                    colorFilter: const ColorFilter.mode(
+                      Color(0xFF00A550),
+                      BlendMode.srcIn,
+                    ),
                   ),
-                  SizedBox(width: 14),
-                  Text(
+                  const SizedBox(width: 14),
+                  const Text(
                     "Distanza: ",
                     style: TextStyle(fontSize: 16),
                   ),
-                  Text(
+                  const Text(
                     "20 km",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -239,12 +282,14 @@ class OrderDetail extends StatelessWidget {
             child: Text(
               "Note ordine",
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
+                fontWeight: FontWeight.w600,
+                fontSize: 20,
+                color: Color(0XFF404040),
+                fontFamily: 'Kulim Park',
               ),
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 80),
         ],
       ),
     );

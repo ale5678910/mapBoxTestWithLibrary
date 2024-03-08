@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:test7/model/colors.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -9,6 +10,7 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  AppColors colors = AppColors();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +28,16 @@ class _LoadingScreenState extends State<LoadingScreen> {
             height: 20,
             fit: BoxFit.fill,
           ),
-          const Text(
-            "Caricamento percorso",
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Text(
+              "Caricamento percorso",
+              style: TextStyle(
+                color: colors.primary,
+                fontWeight: FontWeight.w400,
+                fontSize: 22,
+              ),
+            ),
           ),
         ],
       ),

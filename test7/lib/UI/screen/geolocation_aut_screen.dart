@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import '../component/standard_button.dart';
 import 'order_list_screen.dart';
@@ -76,9 +77,7 @@ class _GeolocationAutState extends State<GeolocationAut> {
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 30),
-                        const Image(
-                          image: AssetImage('assets/location_aut.png'),
-                        ),
+                        SvgPicture.asset('assets/svg/location_active.svg'),
                         const SizedBox(height: 35),
                         InkWell(
                           onTap: () {

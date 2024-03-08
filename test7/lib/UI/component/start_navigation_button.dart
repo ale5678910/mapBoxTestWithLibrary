@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class StartNavigationButton extends StatelessWidget {
   final VoidCallback onPressed;
-  const StartNavigationButton({super.key,required this.onPressed});
+  const StartNavigationButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +12,11 @@ class StartNavigationButton extends StatelessWidget {
         backgroundColor: const Color(0xFF00A550),
       ),
       onPressed: onPressed,
-      child: const Padding(
-        padding: EdgeInsets.only(left: 24),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 24),
         child: Row(
           children: [
-            Text(
+            const Text(
               "Crea itinerario",
               style: TextStyle(
                 color: Colors.white,
@@ -25,10 +26,15 @@ class StartNavigationButton extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Image(
-                color: Colors.white,
-                image: AssetImage("assets/conversion_path.png"),
+              padding: const EdgeInsets.all(10.0),
+              child: SvgPicture.asset(
+                'assets/svg/conversion_path.svg',
+                width: 40,
+                height: 40,
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
           ],

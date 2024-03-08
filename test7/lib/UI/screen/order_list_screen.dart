@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:test7/UI/component/order_card.dart';
+import 'package:test7/model/colors.dart';
 import '../../model/order.dart';
 import '../../point.dart';
 import '../component/detail_order.dart';
+import '../component/order_card.dart';
 import '../component/start_navigation_button.dart';
 import '../component/top_banner_order_list.dart';
 import 'loading_screen.dart';
@@ -17,6 +18,7 @@ class OrderListScreen extends StatefulWidget {
 class _OrderListScreenState extends State<OrderListScreen> {
   List<Order> orders = [];
   Points points = Points();
+  AppColors colors = AppColors();
 
   @override
   void initState() {
@@ -62,15 +64,32 @@ class _OrderListScreenState extends State<OrderListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFBFBFB),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              title: const Text('Item 1'),
+              onTap: () {},
+            ),
+            ListTile(
+              title: const Text('Item 2'),
+              onTap: () {},
+            ),
+          ],
+        ),
+      ),
       body: Stack(
         children: [
           Column(
             children: [
-              TopBannerOrderList(
-                onTap: () {
-                  debugPrint("ddsds");
-                },
-              ),
+              const TopBannerOrderList(),
               const SizedBox(height: 20),
               Expanded(
                 child: ListView.builder(
@@ -80,18 +99,25 @@ class _OrderListScreenState extends State<OrderListScreen> {
                       onTap: () {
                         showModalBottomSheet(
                           context: context,
+                          isScrollControlled: true,
                           builder: (BuildContext context) {
                             return OrderDetail(order: orders[index]);
                           },
                         );
                       },
-                      child: OrderCard(
-                        order: orders[index],
-                      ),
+                      child: (index != (orders.length - 1))
+                          ? OrderCard(order: orders[index])
+                          : Column(
+                              children: [
+                                OrderCard(order: orders[index]),
+                                const SizedBox(height: 90),
+                              ],
+                            ),
                     );
                   },
                 ),
               ),
+              //SizedBox(height: 90,),
             ],
           ),
           Align(

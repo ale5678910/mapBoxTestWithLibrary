@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class TopBannerOrderList extends StatelessWidget {
-  final VoidCallback onTap;
-  const TopBannerOrderList({super.key, required this.onTap});
+  const TopBannerOrderList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +14,11 @@ class TopBannerOrderList extends StatelessWidget {
         borderRadius: BorderRadius.only(bottomRight: Radius.circular(120)),
         boxShadow: [
           BoxShadow(
-              blurRadius: 0,
-              color: Color.fromRGBO(163, 223, 192, 0.37),
-              spreadRadius: 10,
-              offset: Offset(-14, 8)),
+            blurRadius: 0,
+            color: Color.fromRGBO(163, 223, 192, 0.37),
+            spreadRadius: 10,
+            offset: Offset(-14, 8),
+          ),
         ],
       ),
       child: Row(
@@ -29,12 +30,17 @@ class TopBannerOrderList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
-                  onTap: () => onTap(),
-                  child: const Image(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: SvgPicture.asset(
+                    'assets/svg/menu.svg',
                     width: 30,
                     height: 30,
-                    color: Colors.white,
-                    image: AssetImage("assets/menu.png"),
+                    colorFilter: const ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -74,20 +80,30 @@ class TopBannerOrderList extends StatelessWidget {
               ],
             ),
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Padding(
-                padding: EdgeInsets.only(bottom: 11, right: 5),
-                child: Image(
-                  color: Color(0xFFA3DFC0),
-                  image: AssetImage("assets/package.png"),
+                padding: const EdgeInsets.only(bottom: 11, right: 5),
+                child: SvgPicture.asset(
+                  'assets/svg/package_2_fill.svg',
+                  width: 23,
+                  height: 23,
+                  colorFilter: const ColorFilter.mode(
+                    Color(0xFFA3DFC0),
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
-              Image(
-                color: Color(0xFFA3DFC0),
-                image: AssetImage("assets/local_shipping.png"),
+              SvgPicture.asset(
+                'assets/svg/local_shipping.svg',
+                width: 72,
+                height: 72,
+                colorFilter: const ColorFilter.mode(
+                  Color(0xFFA3DFC0),
+                  BlendMode.srcIn,
+                ),
               ),
             ],
           ),

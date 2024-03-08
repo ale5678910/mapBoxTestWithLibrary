@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:test7/model/order.dart';
+import 'package:flutter_svg/svg.dart';
+import '../../model/order.dart';
 
-class OrderCard extends StatelessWidget {
+class OrderCardFilled extends StatelessWidget {
   final Order order;
-  const OrderCard({super.key, required this.order});
+  const OrderCardFilled({super.key,required this.order});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          boxShadow: [
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          border: Border.all(
+            width: 2,
+            color: const Color(0xFF00A550),
+          ),
+          boxShadow: const [
             BoxShadow(
               blurRadius: 20,
               color: Color.fromRGBO(0, 0, 0, 0.11),
@@ -29,7 +33,7 @@ class OrderCard extends StatelessWidget {
                 width: 100,
                 height: 100,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFF2F9F6),
+                  color: Color(0xFF00A550),
                   borderRadius: BorderRadius.all(
                     Radius.circular(12),
                   ),
@@ -39,7 +43,7 @@ class OrderCard extends StatelessWidget {
                     "11:25",
                     style: TextStyle(
                       fontSize: 26,
-                      color: Color(0xFF00A550),
+                      color: Colors.white,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -54,7 +58,7 @@ class OrderCard extends StatelessWidget {
                         decoration: const BoxDecoration(
                           border: Border(
                             bottom:
-                                BorderSide(color: Color(0xFF00A550), width: 1),
+                            BorderSide(color: Color(0xFF00A550), width: 1),
                           ),
                         ),
                         child: Padding(

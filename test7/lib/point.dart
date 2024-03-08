@@ -1,4 +1,4 @@
-import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
+import 'package:custom_mapbox_plugin/flutter_mapbox_navigation.dart';
 
 class Points{
   final syncroweb = WayPoint(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/svg.dart';
+import 'package:test7/model/colors.dart';
 import '../component/standard_button.dart';
 import 'geolocation_aut_screen.dart';
 
@@ -11,24 +12,36 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  AppColors colors = AppColors();
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+        //physics: const NeverScrollableScrollPhysics(),
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/login_background.png"),
-                fit: BoxFit.cover),
+              image: AssetImage("assets/login_background.png"),
+              fit: BoxFit.cover,
+            ),
           ),
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 100),
-                child: Image(image: AssetImage("assets/lmm_logo.png")),
+              Padding(
+                padding: const EdgeInsets.only(top: 100),
+                child: SvgPicture.asset(
+                  'assets/svg/lmm_logo.svg',
+                  colorFilter: const ColorFilter.mode(
+                    Colors.white,
+                    BlendMode.srcIn,
+                  ),
+                ),
               ),
               const SizedBox(height: 60),
               Padding(
@@ -46,115 +59,116 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: [
                         const SizedBox(height: 30),
-                        RichText(
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: const <TextSpan>[
-                              TextSpan(
-                                text: 'Effettua il ',
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontFamily: "Kulim Park",
-                                  color: Color(0XFF1E1E1E),
-                                  fontWeight: FontWeight.w600,
+                        title(),
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 30),
+                                  child: Text(
+                                    'Username',
+                                    style: TextStyle(
+                                      color: Color(0xFF1E1E1E),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Kulim Park',
+                                    ),
+                                  ),
                                 ),
                               ),
-                              TextSpan(
-                                text: "login",
+                              TextFormField(
+                                controller: _userNameController,
                                 style: TextStyle(
-                                  fontSize: 25,
-                                  fontFamily: "Kulim Park",
-                                  color: Color(0xFF00A550),
-                                  fontWeight: FontWeight.w600,
+                                  color: colors.loginTextField,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                                decoration: InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: colors.loginTextField,
+                                    ),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: colors.loginTextField,
+                                    ),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    'Password',
+                                    style: TextStyle(
+                                      color: Color(0xFF1E1E1E),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Kulim Park',
+                                    ),
+                                  ),
                                 ),
                               ),
+                              TextFormField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                style: TextStyle(
+                                  color: colors.loginTextField,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                                decoration: InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: colors.loginTextField,
+                                    ),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: colors.loginTextField,
+                                    ),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 80),
+                              InkWell(
+                                onTap: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const GeolocationAut(),
+                                      ),
+                                    );
+                                    debugPrint(_userNameController.text);
+                                    debugPrint(_passwordController.text);
+                                  }
+                                },
+                                child:
+                                    const StandardButton(nameButton: 'Login'),
+                              ),
+                              const SizedBox(height: 40),
                             ],
                           ),
                         ),
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Text(
-                              'Username',
-                              style: TextStyle(
-                                color: Color(0xFF1E1E1E),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'Kulim Park',
-                              ),
-                            ),
-                          ),
-                        ),
-                        TextField(
-                          onChanged: (value) {
-                            debugPrint(value.toString());
-                          },
-                          style: const TextStyle(
-                            color: Color(0xFFD9D9D9),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w300,
-                          ),
-                          decoration: const InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              'Password',
-                              style: TextStyle(
-                                color: Color(0xFF1E1E1E),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'Kulim Park',
-                              ),
-                            ),
-                          ),
-                        ),
-                        TextField(
-                          onChanged: (value) {
-                            debugPrint(value.toString());
-                          },
-                          obscureText: true,
-                          style: const TextStyle(color: Color(0xFFD9D9D9)),
-                          decoration: const InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 80),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const GeolocationAut(),
-                              ),
-                            );
-                          },
-                          child: const StandardButton(nameButton: 'Login')
-                        ),
-                        const SizedBox(height: 40),
                       ],
                     ),
                   ),
@@ -163,6 +177,34 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget title() {
+    return RichText(
+      text: TextSpan(
+        style: DefaultTextStyle.of(context).style,
+        children: <TextSpan>[
+          const TextSpan(
+            text: 'Effettua il ',
+            style: TextStyle(
+              fontSize: 25,
+              fontFamily: "Kulim Park",
+              color: Color(0XFF1E1E1E),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          TextSpan(
+            text: "login",
+            style: TextStyle(
+              fontSize: 25,
+              fontFamily: "Kulim Park",
+              color: colors.primary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }
